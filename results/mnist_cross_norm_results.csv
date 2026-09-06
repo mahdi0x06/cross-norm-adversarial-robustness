@@ -1,0 +1,10 @@
+model,attack,epsilon,accuracy
+clean,clean,0.0,0.9893
+clean,pgd_linf,0.3,0.0
+clean,pgd_l2,2.0,0.1426
+linf_at,clean,0.0,0.9759
+linf_at,pgd_linf,0.3,0.8926
+linf_at,pgd_l2,2.0,0.8255
+l2_at,clean,0.0,0.9849
+l2_at,pgd_linf,0.3,0.0091
+l2_at,pgd_l2,2.0,0.7893
