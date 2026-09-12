@@ -306,7 +306,7 @@ cd cross-norm-adversarial-robustness
 ### Install dependencies
 
 ```bash
-pip install torch torchvision numpy pandas matplotlib jupyter
+python -m pip install -r requirements.txt
 ```
 
 ### Launch the notebook
