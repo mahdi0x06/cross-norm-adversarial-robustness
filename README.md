@@ -2,7 +2,7 @@
 
 # Cross-Norm Adversarial Robustness
 
-### PGD adversarial training under \(L_\infty\) and \(L_2\) threat models on MNIST and CIFAR-10
+### PGD adversarial training under $L_\infty$ and $L_2$ threat models on MNIST and CIFAR-10
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-Adversarial%20ML-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
@@ -17,7 +17,7 @@
 
 ## Overview
 
-Adversarial training is usually designed around a specific **threat model**. A model trained against \(L_\infty\)-bounded perturbations may be robust to \(L_\infty\) attacks, but that does not automatically imply robustness to \(L_2\) attacks — and vice versa.
+Adversarial training is usually designed around a specific **threat model**. A model trained against $L_\infty$-bounded perturbations may be robust to $L_\infty$ attacks, but that does not automatically imply robustness to $L_2$ attacks — and vice versa.
 
 This project studies that question directly:
 
@@ -26,10 +26,10 @@ This project studies that question directly:
 For both **MNIST** and **CIFAR-10**, three models are trained:
 
 - **Clean** — standard training
-- **\(L_\infty\)-AT** — PGD adversarial training with an \(L_\infty\) constraint
-- **\(L_2\)-AT** — PGD adversarial training with an \(L_2\) constraint
+- **$L_\infty$-AT** — PGD adversarial training with an $L_\infty$ constraint
+- **$L_2$-AT** — PGD adversarial training with an $L_2$ constraint
 
-Each model is then evaluated under both **PGD-\(L_\infty\)** and **PGD-\(L_2\)** attacks, followed by epsilon sweeps from mild to extreme attack budgets.
+Each model is then evaluated under both **PGD-$L_\infty$** and **PGD-$L_2$** attacks, followed by epsilon sweeps from mild to extreme attack budgets.
 
 ---
 
@@ -37,22 +37,22 @@ Each model is then evaluated under both **PGD-\(L_\infty\)** and **PGD-\(L_2\)**
 
 The core adversarial-training objective is
 
-\[
+$$
 \min_\theta \;
 \mathbb{E}_{(x,y)}
 \left[
 \max_{\|\delta\|_p \le \epsilon}
 \mathcal{L}(f_\theta(x+\delta), y)
 \right].
-\]
+$$
 
 The experiment forms the following cross-norm evaluation matrix:
 
-| Training regime | Clean | PGD-\(L_\infty\) | PGD-\(L_2\) |
+| Training regime | Clean | PGD-$L_\infty$ | PGD-$L_2$ |
 |---|:---:|:---:|:---:|
 | Clean | ✓ | ✓ | ✓ |
-| \(L_\infty\)-AT | ✓ | ✓ | ✓ |
-| \(L_2\)-AT | ✓ | ✓ | ✓ |
+| $L_\infty$-AT | ✓ | ✓ | ✓ |
+| $L_2$-AT | ✓ | ✓ | ✓ |
 
 This makes it possible to compare **matched-norm robustness** with **cross-norm transfer**.
 
@@ -64,18 +64,18 @@ This makes it possible to compare **matched-norm robustness** with **cross-norm 
 
 - 60,000 training images
 - 10,000 test images
-- Grayscale, \(28 \times 28\)
-- Pixel values kept in \([0,1]\)
+- Grayscale, $28 \times 28$
+- Pixel values kept in $[0,1]$
 
 ### CIFAR-10
 
 - 50,000 training images
 - 10,000 test images
-- RGB, \(32 \times 32\)
+- RGB, $32 \times 32$
 - Training augmentation:
   - random crop with padding
   - random horizontal flip
-- Pixel values kept in \([0,1]\)
+- Pixel values kept in $[0,1]$
 
 ---
 
@@ -116,7 +116,7 @@ ReLU
 Linear(512 → 10)
 ```
 
-For each dataset, the clean, \(L_\infty\)-AT, and \(L_2\)-AT models start from the **same initial weights** to reduce initialization as a confounding factor.
+For each dataset, the clean, $L_\infty$-AT, and $L_2$-AT models start from the **same initial weights** to reduce initialization as a confounding factor.
 
 ---
 
@@ -124,8 +124,8 @@ For each dataset, the clean, \(L_\infty\)-AT, and \(L_2\)-AT models start from t
 
 | Dataset | Batch Size | Epochs | Optimizer | Learning Rate |
 |---|---:|---:|---|---:|
-| MNIST | 128 | 10 | Adam | \(10^{-3}\) |
-| CIFAR-10 | 128 | 30 | Adam | \(10^{-3}\) |
+| MNIST | 128 | 10 | Adam | $10^{-3}$ |
+| CIFAR-10 | 128 | 30 | Adam | $10^{-3}$ |
 
 Loss function: **Cross-Entropy Loss**
 
@@ -133,14 +133,14 @@ Random seed: **42**
 
 ### PGD used during adversarial training
 
-| Dataset | Norm | \(\epsilon\) | \(\alpha\) | Steps |
+| Dataset | Norm | $\epsilon$ | $\alpha$ | Steps |
 |---|---|---:|---:|---:|
-| MNIST | \(L_\infty\) | 0.30 | 0.01 | 40 |
-| MNIST | \(L_2\) | 2.0 | 0.10 | 40 |
-| CIFAR-10 | \(L_\infty\) | \(8/255\) | \(2/255\) | 10 |
-| CIFAR-10 | \(L_2\) | 0.50 | 0.05 | 10 |
+| MNIST | $L_\infty$ | 0.30 | 0.01 | 40 |
+| MNIST | $L_2$ | 2.0 | 0.10 | 40 |
+| CIFAR-10 | $L_\infty$ | $8/255$ | $2/255$ | 10 |
+| CIFAR-10 | $L_2$ | 0.50 | 0.05 | 10 |
 
-The \(L_\infty\) and \(L_2\) epsilon values are **not directly comparable numerically** because the two norms constrain perturbations in different geometries.
+The $L_\infty$ and $L_2$ epsilon values are **not directly comparable numerically** because the two norms constrain perturbations in different geometries.
 
 ---
 
@@ -150,21 +150,21 @@ The \(L_\infty\) and \(L_2\) epsilon values are **not directly comparable numeri
 
 Accuracy at the configured evaluation budgets:
 
-- PGD-\(L_\infty\): \(\epsilon = 0.30\)
-- PGD-\(L_2\): \(\epsilon = 2.0\)
+- PGD-$L_\infty$: $\epsilon = 0.30$
+- PGD-$L_2$: $\epsilon = 2.0$
 
-| Model | Clean Accuracy | PGD-\(L_\infty\) | PGD-\(L_2\) |
+| Model | Clean Accuracy | PGD-$L_\infty$ | PGD-$L_2$ |
 |---|---:|---:|---:|
 | Clean | **98.93%** | 0.00% | 14.26% |
-| \(L_\infty\)-AT | 97.59% | **89.26%** | **82.55%** |
-| \(L_2\)-AT | 98.49% | 0.91% | 78.93% |
+| $L_\infty$-AT | 97.59% | **89.26%** | **82.55%** |
+| $L_2$-AT | 98.49% | 0.91% | 78.93% |
 
 ### What stands out
 
-- The clean model collapses almost completely under \(L_\infty\) PGD.
-- \(L_\infty\)-adversarial training provides very strong matched-norm robustness.
-- On MNIST, \(L_\infty\)-AT also transfers surprisingly well to \(L_2\).
-- \(L_2\)-AT is strong against \(L_2\), but transfers poorly to the configured \(L_\infty\) attack.
+- The clean model collapses almost completely under $L_\infty$ PGD.
+- $L_\infty$-adversarial training provides very strong matched-norm robustness.
+- On MNIST, $L_\infty$-AT also transfers surprisingly well to $L_2$.
+- $L_2$-AT is strong against $L_2$, but transfers poorly to the configured $L_\infty$ attack.
 
 ### MNIST robustness curves
 
@@ -179,22 +179,22 @@ Accuracy at the configured evaluation budgets:
 
 Accuracy at the configured evaluation budgets:
 
-- PGD-\(L_\infty\): \(\epsilon = 8/255\)
-- PGD-\(L_2\): \(\epsilon = 0.50\)
+- PGD-$L_\infty$: $\epsilon = 8/255$
+- PGD-$L_2$: $\epsilon = 0.50$
 
-| Model | Clean Accuracy | PGD-\(L_\infty\) | PGD-\(L_2\) |
+| Model | Clean Accuracy | PGD-$L_\infty$ | PGD-$L_2$ |
 |---|---:|---:|---:|
 | Clean | **84.90%** | 0.13% | 1.84% |
-| \(L_\infty\)-AT | 59.27% | **36.08%** | 47.20% |
-| \(L_2\)-AT | 77.06% | 18.12% | **52.47%** |
+| $L_\infty$-AT | 59.27% | **36.08%** | 47.20% |
+| $L_2$-AT | 77.06% | 18.12% | **52.47%** |
 
 ### What stands out
 
 - Standard training achieves the best clean accuracy but almost no adversarial robustness.
-- \(L_\infty\)-AT gives the strongest protection against \(L_\infty\) PGD.
-- \(L_2\)-AT gives the strongest protection against \(L_2\) PGD.
+- $L_\infty$-AT gives the strongest protection against $L_\infty$ PGD.
+- $L_2$-AT gives the strongest protection against $L_2$ PGD.
 - Both robust models show some cross-norm transfer, but matched-norm training remains stronger on CIFAR-10.
-- \(L_\infty\)-AT incurs a substantially larger clean-accuracy cost than \(L_2\)-AT in this setup.
+- $L_\infty$-AT incurs a substantially larger clean-accuracy cost than $L_2$-AT in this setup.
 
 ### CIFAR-10 robustness curves
 
@@ -213,16 +213,16 @@ Accuracy at the configured evaluation budgets:
    The clean baselines reach 98.93% on MNIST and 84.90% on CIFAR-10, yet both collapse under sufficiently strong PGD attacks.
 
 2. **Matched-norm adversarial training works.**  
-   \(L_\infty\)-AT is strongest against \(L_\infty\), while \(L_2\)-AT is strongest against \(L_2\) on CIFAR-10.
+   $L_\infty$-AT is strongest against $L_\infty$, while $L_2$-AT is strongest against $L_2$ on CIFAR-10.
 
 3. **Cross-norm robustness is not guaranteed.**  
    Training against one perturbation geometry does not consistently protect against another.
 
 4. **Transfer behavior differs across datasets.**  
-   MNIST shows strong \(L_\infty \rightarrow L_2\) transfer, whereas CIFAR-10 exhibits a clearer advantage for norm-matched training.
+   MNIST shows strong $L_\infty \rightarrow L_2$ transfer, whereas CIFAR-10 exhibits a clearer advantage for norm-matched training.
 
 5. **Robustness comes with a clean-accuracy trade-off.**  
-   This trade-off is especially visible for CIFAR-10 \(L_\infty\)-AT.
+   This trade-off is especially visible for CIFAR-10 $L_\infty$-AT.
 
 6. **Extreme epsilon sweeps expose the full robustness profile.**  
    A single evaluation budget can hide how quickly a model degrades as attack strength increases.
@@ -235,13 +235,13 @@ The repository contains full CSV results for increasing attack budgets.
 
 ### MNIST
 
-**PGD-\(L_\infty\)**
+**PGD-$L_\infty$**
 
 ```text
 0.00 → 0.05 → 0.10 → 0.20 → 0.30 → 0.40 → 0.50 → 0.70 → 1.00
 ```
 
-**PGD-\(L_2\)**
+**PGD-$L_2$**
 
 ```text
 0.0 → 0.5 → 1.0 → 2.0 → 3.0 → 4.0 → 5.0 → 7.0 → 10.0
@@ -249,13 +249,13 @@ The repository contains full CSV results for increasing attack budgets.
 
 ### CIFAR-10
 
-**PGD-\(L_\infty\)**
+**PGD-$L_\infty$**
 
 ```text
 0 → 2/255 → 4/255 → 8/255 → 12/255 → 16/255 → 24/255 → 32/255 → 48/255 → 64/255
 ```
 
-**PGD-\(L_2\)**
+**PGD-$L_2$**
 
 ```text
 0.0 → 0.25 → 0.50 → 1.0 → 2.0 → 3.0 → 5.0 → 8.0 → 12.0
@@ -325,10 +325,10 @@ You can also run the notebook directly in Google Colab:
 
 ## Implementation Notes
 
-- PGD-\(L_\infty\) uses signed gradient steps and projection back into the \(L_\infty\) ball.
-- PGD-\(L_2\) normalizes the input gradient by its \(L_2\) norm and projects perturbations back into the \(L_2\) ball.
+- PGD-$L_\infty$ uses signed gradient steps and projection back into the $L_\infty$ ball.
+- PGD-$L_2$ normalizes the input gradient by its $L_2$ norm and projects perturbations back into the $L_2$ ball.
 - Random starts are used when generating PGD adversarial examples.
-- All adversarial images are clamped to the valid pixel range \([0,1]\).
+- All adversarial images are clamped to the valid pixel range $[0,1]$.
 - Evaluation and training attack configurations are kept separate.
 - Epsilon sweeps use attack budgets well beyond the training epsilon to study failure behavior.
 
@@ -338,9 +338,11 @@ You can also run the notebook directly in Google Colab:
 
 This repository is an experimental study rather than a complete adversarial-robustness benchmark.
 
-- Only PGD attacks are evaluated.
+- Only PGD attacks are evaluated, with one random start per example rather than worst-case aggregation across multiple restarts.
+- Test accuracy is monitored during training; a separate validation-based selection protocol would be preferable for future experiments.
+- The published results describe one run without multi-seed confidence intervals.
 - The models are compact CNNs rather than large modern architectures.
-- \(L_\infty\) and \(L_2\) budgets are not perceptually equivalent.
+- $L_\infty$ and $L_2$ budgets are not perceptually equivalent.
 - Results are limited to MNIST and CIFAR-10.
 - Stronger evaluation suites such as multi-attack robustness benchmarks are outside the current scope.
 
